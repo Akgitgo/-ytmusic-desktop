@@ -14,7 +14,7 @@
     "publish:linux": "electron-builder --linux --publish always",
     "publish:all": "electron-builder -mwl --publish always"
   },
-  "author": "Your Name",
+  "author": { "name": "Akgitgo", "email": "akgitgo@users.noreply.github.com" },
   "license": "MIT",
   "devDependencies": {
     "electron"        : "^28.3.3",
