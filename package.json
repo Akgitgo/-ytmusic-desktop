@@ -1,0 +1,92 @@
+{
+  "name": "ytmusic-desktop",
+  "version": "1.0.0",
+  "description": "YouTube Music Desktop — native app for Windows & macOS",
+  "main": "main.js",
+  "scripts": {
+    "start"      : "electron .",
+    "build:win"  : "electron-builder --win",
+    "build:mac"  : "electron-builder --mac",
+    "build:linux": "electron-builder --linux",
+    "build:all"  : "electron-builder -mwl",
+    "publish:win": "electron-builder --win --publish always",
+    "publish:mac": "electron-builder --mac --publish always",
+    "publish:all": "electron-builder -mwl --publish always"
+  },
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "electron"        : "^28.3.3",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId"      : "com.ytmusic.desktop",
+    "productName": "YT Music",
+    "copyright"  : "Copyright © 2024",
+    "directories": { "output": "dist" },
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer/**/*",
+      "assets/**/*",
+      "package.json"
+    ],
+
+    "protocols": [
+      {
+        "name"   : "YT Music",
+        "schemes": ["ytmusic"]
+      }
+    ],
+
+    "publish": {
+      "provider": "github",
+      "owner"   : "Akgitgo",
+      "repo"    : "-ytmusic-desktop"
+    },
+
+    "win": {
+      "target": [
+        { "target": "nsis",     "arch": ["x64"] },
+        { "target": "portable", "arch": ["x64"] }
+      ],
+      "icon": "assets/icon.ico",
+      "protocols": [{ "name": "YT Music", "schemes": ["ytmusic"] }]
+    },
+
+    "mac": {
+      "target": [
+        { "target": "dmg", "arch": ["x64", "arm64"] }
+      ],
+      "icon"                : "assets/icon.icns",
+      "category"            : "public.app-category.music",
+      "hardenedRuntime"     : true,
+      "entitlements"        : "build/entitlements.mac.plist",
+      "entitlementsInherit" : "build/entitlements.mac.plist",
+      "protocols"           : [{ "name": "YT Music", "schemes": ["ytmusic"] }]
+    },
+
+    "linux": {
+      "target"  : ["AppImage", "deb"],
+      "icon"    : "assets/icon.png",
+      "category": "Audio",
+      "mimeTypes": ["x-scheme-handler/ytmusic"]
+    },
+
+    "nsis": {
+      "oneClick"                          : false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut"             : true,
+      "createStartMenuShortcut"           : true,
+      "shortcutName"                      : "YT Music",
+      "include"                           : "build/installer.nsh"
+    },
+
+    "dmg": {
+      "contents": [
+        { "x": 130, "y": 220 },
+        { "x": 410, "y": 220, "type": "link", "path": "/Applications" }
+      ]
+    }
+  }
+}

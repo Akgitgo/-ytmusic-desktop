@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YT Music Desktop</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #030303;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            padding: 40px;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            color: #ff0000;
+        }
+        p {
+            font-size: 1.2rem;
+            color: #aaaaaa;
+            margin-bottom: 40px;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            background-color: #212121;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+            border: 1px solid #3d3d3d;
+        }
+        .btn:hover {
+            background-color: #3d3d3d;
+            transform: translateY(-2px);
+        }
+        .btn-primary {
+            background-color: #ff0000;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #cc0000;
+        }
+        .features {
+            text-align: left;
+            background: #121212;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+        }
+        .features h2 {
+            margin-top: 0;
+            color: #ffffff;
+        }
+        .features ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .features li {
+            margin: 15px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        .features li::before {
+            content: "✓";
+            color: #ff0000;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        .footer {
+            margin-top: 50px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .footer a {
+            color: #aaaaaa;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Logo placeholder -->
+        <div style="font-size: 60px; margin-bottom: 20px;">🎵</div>
+        
+        <h1>YT Music Desktop</h1>
+        <p>A beautiful, native desktop wrapper for YouTube Music.</p>
+
+        <div class="buttons">
+            <a href="https://github.com/Akgitgo/-ytmusic-desktop/releases/latest" class="btn btn-primary">Download for Windows</a>
+            <a href="https://github.com/Akgitgo/-ytmusic-desktop/releases/latest" class="btn">Download for macOS</a>
+            <a href="https://github.com/Akgitgo/-ytmusic-desktop/releases/latest" class="btn">Download for Linux</a>
+        </div>
+
+        <div class="features">
+            <h2>Why use YT Music Desktop?</h2>
+            <ul>
+                <li><strong>Native Feel:</strong> Custom window controls and proper OS integration.</li>
+                <li><strong>Media Keys:</strong> Control playback seamlessly from your keyboard or system media controls.</li>
+                <li><strong>Lightweight:</strong> Built efficiently to keep memory footprint low.</li>
+                <li><strong>Google Sign-in Works:</strong> Uses real Chromium so standard Google auth works perfectly.</li>
+                <li><strong>System Shortcuts:</strong> Deep-link protocol support (`ytmusic://`).</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p>Not affiliated with YouTube or Google. Made for personal use.</p>
+            <p><a href="https://github.com/Akgitgo/-ytmusic-desktop">View Source on GitHub</a></p>
+        </div>
+    </div>
+</body>
+</html>
