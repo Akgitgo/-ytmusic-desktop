@@ -11,6 +11,7 @@
     "build:all"  : "electron-builder -mwl",
     "publish:win": "electron-builder --win --publish always",
     "publish:mac": "electron-builder --mac --publish always",
+    "publish:linux": "electron-builder --linux --publish always",
     "publish:all": "electron-builder -mwl --publish always"
   },
   "author": "Your Name",
