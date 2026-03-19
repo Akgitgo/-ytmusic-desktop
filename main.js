@@ -98,6 +98,10 @@ function getMusicSession () {
 function spoofUA (ses) {
   ses.webRequest.onBeforeSendHeaders((details, cb) => {
     details.requestHeaders['User-Agent'] = CHROME_UA;
+    // Also remove the Origin header for Google OAuth so it doesn't get blocked
+    if (details.url.includes('accounts.google.com')) {
+      delete details.requestHeaders['Origin'];
+    }
     cb({ requestHeaders: details.requestHeaders });
   });
 }
@@ -381,6 +385,7 @@ ipcMain.on('sign-out', async () => {
 //  App lifecycle
 // ─────────────────────────────────────────────────────────────────
 app.whenReady().then(() => {
+  app.userAgentFallback = CHROME_UA;
   spoofUA(getMusicSession());
   spoofUA(session.defaultSession);
 
