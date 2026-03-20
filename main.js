@@ -14,9 +14,8 @@ const TITLEBAR_H    = 44;
 const SETTINGS_FILE = path.join(app.getPath('userData'), 'settings.json');
 
 const CHROME_UA =
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) ' +
-  'AppleWebKit/537.36 (KHTML, like Gecko) ' +
-  'Chrome/124.0.0.0 Safari/537.36';
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) ' +
+  'Gecko/20100101 Firefox/125.0';
 
 // ─────────────────────────────────────────────────────────────────
 //  Register "ytmusic://" deep-link protocol
@@ -97,8 +96,14 @@ function getMusicSession () {
 
 function spoofUA (ses) {
   ses.webRequest.onBeforeSendHeaders((details, cb) => {
-    details.requestHeaders['User-Agent'] = CHROME_UA;
-    // Also remove the Origin header for Google OAuth so it doesn't get blocked
+    details.requestHeaders['User-Agent'] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0";
+    
+    // Remove sec-ch-ua headers to bypass Google sign-in block
+    ['sec-ch-ua', 'sec-ch-ua-mobile', 'sec-ch-ua-platform'].forEach(h => {
+      if (details.requestHeaders[h]) delete details.requestHeaders[h];
+    });
+
+    // Also remove the Origin header for Google OAuth
     if (details.url.includes('accounts.google.com')) {
       delete details.requestHeaders['Origin'];
     }
@@ -209,8 +214,12 @@ function createMusicView () {
 function layoutMusicView () {
   if (!musicView || !mainWindow) return;
   const [w, h] = mainWindow.getContentSize();
-  musicView.setBounds({ x: 0, y: TITLEBAR_H, width: w, height: h - TITLEBAR_H });
-  musicView.setAutoResize({ width: true, height: true });
+  const validH = Math.max(0, h - TITLEBAR_H);
+  try {
+    musicView.setBounds({ x: 0, y: TITLEBAR_H, width: w, height: validH });
+  } catch (e) {
+    // Ignore bounds errors if window is too small temporarily
+  }
 }
 
 function injectScrollbarCSS () {
