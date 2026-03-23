@@ -14,8 +14,7 @@ const TITLEBAR_H    = 44;
 const SETTINGS_FILE = path.join(app.getPath('userData'), 'settings.json');
 
 const CHROME_UA =
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) ' +
-  'Gecko/20100101 Firefox/125.0';
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36';
 
 // ─────────────────────────────────────────────────────────────────
 //  Register "ytmusic://" deep-link protocol
@@ -96,17 +95,15 @@ function getMusicSession () {
 
 function spoofUA (ses) {
   ses.webRequest.onBeforeSendHeaders((details, cb) => {
-    details.requestHeaders['User-Agent'] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0";
-    
-    // Remove sec-ch-ua headers to bypass Google sign-in block
-    ['sec-ch-ua', 'sec-ch-ua-mobile', 'sec-ch-ua-platform'].forEach(h => {
-      if (details.requestHeaders[h]) delete details.requestHeaders[h];
-    });
-
-    // Also remove the Origin header for Google OAuth
-    if (details.url.includes('accounts.google.com')) {
-      delete details.requestHeaders['Origin'];
+    // For Google login specifically, remove Electron traces and sec-ch-ua headers
+    if (details.url.includes('accounts.google.com') || details.url.includes('myaccount.google.com')) {
+      details.requestHeaders['User-Agent'] = CHROME_UA;
+      const headers = ['sec-ch-ua', 'sec-ch-ua-mobile', 'sec-ch-ua-platform', 'sec-ch-ua-arch', 'sec-ch-ua-bitness', 'sec-ch-ua-full-version'];
+      headers.forEach(h => { if (details.requestHeaders[h]) delete details.requestHeaders[h]; });
     }
+    
+    // IMPORTANT: Let the Origin and Referer headers remain untouched. 
+    // Deleting Origin causes Google Auth to fail with "Browser not secure".
     cb({ requestHeaders: details.requestHeaders });
   });
 }
